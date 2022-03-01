@@ -1,0 +1,10 @@
+h1 {
+  color: red;
+}
+body {
+  padding: 20px;
+}
+.btn.btn-success,
+.btn.btn-primary {
+  margin-top: 20px;
+}
