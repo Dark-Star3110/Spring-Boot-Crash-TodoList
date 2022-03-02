@@ -16,19 +16,29 @@
 
   <ul class="list-group">
     <!--Duyệt qua toàn bộ phần tử trong biến "todoList"-->
-    <li th:each="todo : ${todoList}" class="list-group-item">
+    <li th:each="todo : ${todoList}" class="list-group-item d-flex justify-content-between">
       <!--Với mỗi phần tử, lấy ra title và detail-->
       <div class="dropdown">
         <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="*{todo.getTitle()}">
         </button>
         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-          <a class="dropdown-item" href="#" th:text="*{todo.getDetail()}">Action</a>
+          <span class="dropdown-item" th:text="*{todo.getDetail()}">Action</span>
         </div>
+      </div>
+      <div class="d-flex">
+        <form method="get" action="/updateTodo" class="mr-3">
+          <input hidden name="id" th:value="*{todo.getId()}"/>
+          <button type="submit" class="btn btn-info">Edit</button>
+        </form>
+        <form th:action="@{/deleteTodo}" method="post">
+          <input hidden name="id" th:value="*{todo.getId()}"/>
+          <button type="submit" class="btn btn-danger" >Delete</button>
+        </form>
       </div>
     </li>
   </ul>
 
-    <a th:href="@{/addTodo}"class="btn btn-success"> + Thêm công việc</a>
+    <a th:href="@{/addTodo}" class="btn btn-success"> + Thêm công việc</a>
     <a th:href="@{/}"class="btn btn-primary"> Về trang chủ</a>
 </body>
 </html>

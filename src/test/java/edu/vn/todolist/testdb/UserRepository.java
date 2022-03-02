@@ -1,10 +1,12 @@
-package edu.vn.todolist;
+package edu.vn.todolist.testdb;
 
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-// import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
@@ -35,6 +37,16 @@ public interface UserRepository extends JpaRepository<User, Long> {
   // Sắp xếp theo Firstname Desc
   List<User> findByUsernameOrderByUsernameDesc(String username);
 
-  // @Query("select u from users u where u.password = '123456'")
-  // User findUserByPasswordCustom();
+  @Query(value = "select * from users u where u.password =?1", nativeQuery = true)
+  User findUserByPasswordCustom(String password);
+
+  // Chỉ cần thêm @Transactional ở cấp phương thức hoặc cấp lớp. Khi bạn đang cập
+  // nhật hoặc xóa / các bản ghi, bạn phải duy trì trạng thái ổn định của Giao
+  // dịch và @Transactional quản lý điều này.
+  // @Modifying áp dụng với truy vấn ko có kiểu trả về như update => int : 0 or 1,
+  // insert :void
+  @Transactional
+  @Modifying
+  @Query(value = "insert into users(username, password) values (?1, ?2)", nativeQuery = true)
+  void addUser(String username, String password);
 }

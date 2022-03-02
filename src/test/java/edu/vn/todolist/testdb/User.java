@@ -1,4 +1,4 @@
-package edu.vn.todolist;
+package edu.vn.todolist.testdb;
 
 import javax.persistence.*;
 
